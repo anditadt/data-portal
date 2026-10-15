@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>data.olx.co.id — Portal Data & Intelijen Pasar Terbuka OLX</title>
+  <meta name="description" content="Platform data terbuka OLX Indonesia - membuka akses ke data tren jual beli, likuiditas otomotif, properti, dan dinamika pasar sekunder di Indonesia."/>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              primary: '#0B2545',      /* Deep Navy Slate */
+              secondary: '#38BDF8',    /* Light Sky Blue */
+              accent: '#0284C7',       /* Vibrant Sky Accent */
+              highlight: '#BAE6FD',    /* Soft Light Blue Highlight */
+              hover: '#07182C',
+              subtle: '#F0F9FF',      /* Light blue subtle tint */
+              dark: '#081C33'
+            },
+            olx: {
+              navy: '#0B2545',
+              sky: '#38BDF8',
+              cyan: '#0EA5E9',
+              lightBlue: '#E0F2FE',
+              grayBg: '#F8FAFC'
+            }
+          },
+          keyframes: {
+            wave: {
+              '0%, 100%': { transform: 'translateX(0)' },
+              '50%': { transform: 'translateX(-25px)' },
+            }
+          },
+          animation: {
+            wave: 'wave 16s ease-in-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar & Interactive Effects */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1F5F9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #93C5FD;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #60A5FA;
+    }
+    .badge-pill {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .badge-pill:hover {
+      transform: translateY(-1px);
+    }
+    .dataset-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .dataset-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(14, 165, 233, 0.18);
+      border-color: #38BDF8;
+    }
+
+    /* Full-viewport & Full-width Container Styles */
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      overflow-x: hidden;
+    }
+    .full-width-container {
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-[#0B2545] font-sans antialiased min-h-screen flex flex-col selection:bg-sky-200 selection:text-sky-950">
+  <div class="full-width-container">
+  <!-- 1. OLX Ecosystem Verification Masthead -->
+  <aside id="sgds-masthead" class="w-full bg-[#E0F2FE]/70 text-[#0B2545]/85 text-[11px] border-b border-sky-200/80 relative z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between py-1.5">
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <!-- OLX Verified Shield Icon -->
+          <svg class="h-4 w-4 text-sky-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clip-rule="evenodd"/>
+          </svg>
+          <span class="font-normal text-slate-700">Platform Resmi Data & API Terbuka OLX Group Indonesia</span>
+          <button id="masthead-toggle-btn" class="inline-flex items-center text-sky-700 font-semibold hover:underline ml-1 focus:outline-none" aria-expanded="false" onclick="toggleMasthead()">
+            <span>Panduan verifikasi data</span>
+            <svg id="masthead-arrow" class="w-3 h-3 ml-0.5 transform transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="hidden sm:flex items-center gap-2 text-xs font-medium text-slate-500">
+          <span class="inline-block w-2 h-2 rounded-full bg-sky-400"></span>
+          <span>Gateway API v2.4 Online</span>
+        </div>
+      </div>
+
+      <!-- Masthead Drawer Dropdown -->
+      <div id="masthead-content" class="hidden pb-4 pt-2 border-t border-sky-200/80 text-slate-700 text-xs transition-all duration-300">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+          <div class="flex gap-2.5 items-start">
+            <svg class="w-5 h-5 text-sky-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 0 0 3 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            <div>
+              <p class="font-bold text-slate-900 text-sm mb-0.5">Domain Resmi data.olx.co.id</p>
+              <p class="text-slate-600 text-xs leading-relaxed">Seluruh agregasi pasar, indeks harga bekas, dan data likuiditas disajikan resmi dari server OLX Indonesia melalui protokol aman.</p>
+            </div>
+          </div>
+          <div class="flex gap-2.5 items-start">
+            <svg class="w-5 h-5 text-sky-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <div>
+              <p class="font-bold text-slate-900 text-sm mb-0.5">Telemetri Real-Time & Lisensi Terbuka</p>
+              <p class="text-slate-600 text-xs leading-relaxed">Dapat diintegrasikan secara bebas untuk riset akademik, analisis perbankan, penilaian asuransi, dan pengembangan aplikasi cerdas.</p>
+            </div>
+          </div>
+          <div class="flex gap-2.5 items-start">
+            <svg class="w-5 h-5 text-sky-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zm0 0v1a3 3 0 003 3h4a3 3 0 003-3v-1m-4-1a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <div>
+              <p class="font-bold text-slate-900 text-sm mb-0.5">Kerahasiaan Data Pengguna Terjaga</p>
+              <p class="text-slate-600 text-xs leading-relaxed">Data yang dipublikasikan adalah data agregat non-identifikasi pribadi (anonymized) sesuai standar perlindungan data konsumen Indonesia.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. Navbar & Header Section -->
+  <header class="w-full bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-sky-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-[4.5rem]">
+        <!-- Brand Logo OLX Data -->
+        <a href="#" class="flex items-center gap-3 group focus:outline-none" title="data.olx.co.id Beranda">
+          <div class="flex items-center gap-2">
+            <!-- OLX Typographic Logo with Light Blue Badge -->
+            <div class="flex items-center font-black tracking-tighter text-2xl sm:text-3xl text-brand-primary">
+              <span>O</span><span class="text-sky-500">L</span><span class="text-sky-400">X</span>
+              <span class="ml-2 font-extrabold text-xs sm:text-sm px-2.5 py-0.5 bg-sky-100 text-sky-800 border border-sky-200 rounded-md tracking-wider uppercase">DATA</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Items -->
+        <nav class="hidden md:flex items-center gap-1">
+          <a href="#datasets-section" class="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition-colors">Katalog Dataset</a>
+          <a href="#agencies-section" class="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition-colors">Divisi & Vertikal</a>
+          <a href="#creations-section" class="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition-colors">Studi Kasus</a>
+          <a href="#" onclick="triggerToast('Membuka dokumentasi REST API dan Webhook OLX...')" class="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition-colors flex items-center gap-1">
+            Panduan API
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
+          <div class="h-5 w-px bg-slate-200 mx-2"></div>
+          <button onclick="triggerToast('Portal login pengembang & mitra bisnis OLX Data')" class="px-4 py-2 text-sm font-bold text-sky-700 border-2 border-sky-400 bg-sky-50/60 rounded-lg hover:bg-sky-500 hover:text-white transition-all shadow-sm">
+            Masuk Akun Pengembang
+          </button>
+        </nav>
+
+        <!-- Mobile Menu Hamburger Button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-btn" onclick="toggleMobileNav()" class="p-2 rounded-lg text-slate-700 hover:bg-sky-50 focus:outline-none" aria-label="Buka menu navigasi">
+            <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Nav -->
+    <div id="mobile-nav-panel" class="hidden md:hidden border-t border-sky-100 bg-white px-4 pt-3 pb-5 space-y-2 shadow-lg">
+      <a href="#datasets-section" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-md text-base font-semibold text-slate-800 hover:bg-sky-50 hover:text-sky-800">Katalog Dataset</a>
+      <a href="#agencies-section" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-md text-base font-semibold text-slate-800 hover:bg-sky-50 hover:text-sky-800">Divisi & Vertikal Pasar</a>
+      <a href="#creations-section" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-md text-base font-semibold text-slate-800 hover:bg-sky-50 hover:text-sky-800">Studi Kasus & Riset</a>
+      <button onclick="triggerToast('Membuka dokumentasi API Developer'); toggleMobileNav();" class="block w-full text-left px-3 py-2 rounded-md text-base font-semibold text-slate-800 hover:bg-sky-50">Panduan REST API</button>
+      <div class="pt-2">
+        <button onclick="triggerToast('Portal login pengembang & mitra bisnis OLX Data')" class="w-full text-center px-4 py-2.5 rounded-lg text-sm font-bold bg-sky-500 text-white hover:bg-sky-600 shadow">
+          Masuk Akun Pengembang
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3. Hero Section with Soft Light Blue Gradient & Quick Topic Pills -->
+  <main class="flex-grow">
+    <section class="relative pt-12 pb-24 md:pt-20 md:pb-32 overflow-hidden bg-gradient-to-b from-sky-100/70 via-sky-50/40 to-white">
+      <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <!-- Badge Tagline -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 border border-sky-300/80 text-sky-900 text-xs font-bold uppercase tracking-wide mb-6">
+          <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></span>
+          Platform Intelijen & Agregasi Data Pasar Terbesar Indonesia
+        </div>
+
+        <!-- Main Display Headline -->
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-brand-primary leading-tight">
+          Portal Data Terbuka <br class="hidden sm:inline"/>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-600">
+            OLX Indonesia
+          </span>
+        </h1>
+        <p class="mt-4 text-base sm:text-lg md:text-xl text-slate-600 font-normal max-w-2xl mx-auto">
+          Eksplorasi indeks harga pasar sekunder, likuiditas jual-beli kendaraan, valuasi properti, dan tren permintaan konsumen di 38 provinsi.
+        </p>
+
+        <!-- Interactive Search Input Bar -->
+        <div class="mt-8 max-w-2xl mx-auto">
+          <form id="hero-search-form" onsubmit="event.preventDefault(); handleSearch();" class="relative flex items-center">
+            <div class="relative w-full">
+              <input 
+                id="search-input"
+                type="text" 
+                placeholder='Cari kata kunci: "Avanza", "Harga Motor Bekas", "Rumah Surabaya", "Gadget iPhone", "Depresiasi"' 
+                class="w-full h-14 pl-12 pr-32 sm:pr-36 rounded-full border-2 border-sky-200 bg-white text-slate-900 text-sm sm:text-base placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-4 focus:ring-sky-100 shadow-sm transition-all"
+                oninput="liveFilterDatasets(this.value)"
+              />
+              <!-- Search Glass Icon -->
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
+              <!-- Search Submit Button -->
+              <button 
+                type="submit" 
+                class="absolute right-2 top-2 bottom-2 px-5 sm:px-6 rounded-full bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold flex items-center justify-center transition shadow-md active:scale-95"
+              >
+                Cari Data
+              </button>
+            </div>
+          </form>
+          <p id="search-feedback" class="text-xs text-sky-800 font-medium mt-2 text-left px-4 h-4"></p>
+        </div>
+
+        <!-- Quick Filter Topic Tags for OLX Categories -->
+        <div class="mt-8 flex flex-wrap justify-center gap-2 max-w-3xl mx-auto" id="topic-pills">
+          <button onclick="filterByTopic('all')" class="topic-btn badge-pill px-4 py-2 rounded-full border border-sky-500 bg-sky-500 text-white text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm">
+            <span>Semua Kategori</span>
+          </button>
+          <button onclick="filterByTopic('otomotif')" class="topic-btn badge-pill px-4 py-2 rounded-full border border-sky-200 bg-white hover:border-sky-400 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm">
+            <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span> Mobil & Motor Bekas
+          </button>
+          <button onclick="filterByTopic('properti')" class="topic-btn badge-pill px-4 py-2 rounded-full border border-sky-200 bg-white hover:border-sky-400 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span> Properti & Rumah
+          </button>
+          <button onclick="filterByTopic('elektronik')" class="topic-btn badge-pill px-4 py-2 rounded-full border border-sky-200 bg-white hover:border-sky-400 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm">
+            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Gadget & Elektronik
+          </button>
+          <button onclick="filterByTopic('likuiditas')" class="topic-btn badge-pill px-4 py-2 rounded-full border border-sky-200 bg-white hover:border-sky-400 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm">
+            <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span> Indeks Likuiditas
+          </button>
+          <button onclick="filterByTopic('geografis')" class="topic-btn badge-pill px-4 py-2 rounded-full border border-sky-200 bg-white hover:border-sky-400 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm">
+            <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span> Wilayah & Kota
+          </button>
+          <button onclick="filterByTopic('api')" class="topic-btn badge-pill px-4 py-2 rounded-full border border-sky-200 bg-white hover:border-sky-400 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm">
+            <span class="w-2.5 h-2.5 rounded-full bg-teal-400"></span> Real-time Streaming API
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Wavy Ambient Light Blue SVG Decoration -->
+      <div class="absolute bottom-0 left-0 right-0 w-full overflow-hidden pointer-events-none opacity-50">
+        <svg viewBox="0 0 1440 220" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="w-full h-28 sm:h-36 object-cover">
+          <path d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,106.7C672,85,768,75,864,90.7C960,107,1056,149,1152,154.7C1248,160,1344,128,1392,112L1440,96L1440,220L1392,220C1344,220,1248,220,1152,220C1056,220,960,220,864,220C768,220,672,220,576,220C480,220,384,220,288,220C192,220,96,220,48,220L0,220Z" fill="url(#olx-hero-wave-grad)"></path>
+          <defs>
+            <linearGradient id="olx-hero-wave-grad" x1="720" y1="0" x2="720" y2="220" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#BAE6FD" stop-opacity="0.85"/>
+              <stop stop-color="#FFFFFF" offset="1"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </section>
+    <!-- 4. OLX Business Verticals Showcase & Telemetry Metrics -->
+    <section id="agencies-section" class="py-12 bg-white border-t border-sky-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <h2 class="text-2xl sm:text-3xl font-black text-brand-primary">
+            <span class="text-sky-600">1.800+</span> dataset dari <span class="text-sky-600">12+</span> unit vertikal & pasar OLX
+          </h2>
+          <p class="text-slate-600 mt-2 text-sm sm:text-base">
+            Data transaksi sekunder terverifikasi, agregasi penawaran dealer, dan parameter likuiditas pasar online se-Indonesia.
+          </p>
+        </div>
+
+        <!-- 6 Core OLX Verticals Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- OLX Autos -->
+          <div class="dataset-card bg-slate-50/70 border border-sky-100 rounded-2xl p-5 hover:border-sky-400 transition-all">
+            <div class="flex items-center justify-between mb-3">
+              <div class="h-10 px-3 bg-sky-500 rounded-lg flex items-center justify-center font-black text-white text-xs tracking-wider shadow-sm">
+                OLX AUTOS
+              </div>
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-sky-100 text-sky-800 border border-sky-200">412 Dataset</span>
+            </div>
+            <h3 class="font-bold text-slate-900 text-base">OLX Autos & Pasar Mobil Bekas</h3>
+            <p class="text-xs text-slate-500 mt-1 mb-4">Indeks valuasi kendaraan roda empat, depresiasi tahunan, dan waktu rata-rata terjual per segmen.</p>
+            <div class="pt-3 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
+              <span class="font-bold text-sky-900">512.4M Panggilan API</span>
+              <span class="text-slate-300">•</span>
+              <span>184.5K unduhan</span>
+            </div>
+          </div>
+
+          <!-- OLX Properti -->
+          <div class="dataset-card bg-slate-50/70 border border-sky-100 rounded-2xl p-5 hover:border-sky-400 transition-all">
+            <div class="flex items-center justify-between mb-3">
+              <div class="h-10 px-3 bg-cyan-600 rounded-lg flex items-center justify-center font-black text-cyan-50 text-xs tracking-wider shadow-sm">
+                OLX PROPERTI
+              </div>
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-cyan-100 text-cyan-800 border border-cyan-200">238 Dataset</span>
+            </div>
+            <h3 class="font-bold text-slate-900 text-base">Properti & Hunian Residensial</h3>
+            <p class="text-xs text-slate-500 mt-1 mb-4">Harga penawaran per meter persegi di Jabodetabek, Surabaya, Bandung, dan kota satelit berkembang.</p>
+            <div class="pt-3 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
+              <span class="font-bold text-sky-900">89.2M Panggilan API</span>
+              <span class="text-slate-300">•</span>
+              <span>94.1K unduhan</span>
+            </div>
+          </div>
+
+          <!-- OLX MotoMarket -->
+          <div class="dataset-card bg-slate-50/70 border border-sky-100 rounded-2xl p-5 hover:border-sky-400 transition-all">
+            <div class="flex items-center justify-between mb-3">
+              <div class="h-10 px-3 bg-blue-500 rounded-lg flex items-center justify-center font-black text-white text-xs tracking-wider shadow-sm">
+                MOTOMARKET
+              </div>
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-blue-100 text-blue-800 border border-blue-200">186 Dataset</span>
+            </div>
+            <h3 class="font-bold text-slate-900 text-base">Roda Dua & Motor Matik / Sport</h3>
+            <p class="text-xs text-slate-500 mt-1 mb-4">Pangsa pasar motor matik 150cc, konversi motor listrik bekas, dan volume iklan aktif per daerah.</p>
+            <div class="pt-3 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
+              <span class="font-bold text-sky-900">142.0M Panggilan API</span>
+              <span class="text-slate-300">•</span>
+              <span>76.8K unduhan</span>
+            </div>
+          </div>
+
+          <!-- OLX Gadget & Tech -->
+          <div class="dataset-card bg-slate-50/70 border border-sky-100 rounded-2xl p-5 hover:border-sky-400 transition-all">
+            <div class="flex items-center justify-between mb-3">
+              <div class="h-10 px-3 bg-indigo-600 rounded-lg flex items-center justify-center font-black text-indigo-50 text-xs tracking-wider shadow-sm">
+                GADGET & ELEKTRONIK
+              </div>
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">320 Dataset</span>
+            </div>
+            <h3 class="font-bold text-slate-900 text-base">Smartphone, Laptop & Konsol</h3>
+            <p class="text-xs text-slate-500 mt-1 mb-4">Tren retensi harga iPhone dan flagship Android generasi lampau terhadap rilis produk baru.</p>
+            <div class="pt-3 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
+              <span class="font-bold text-sky-900">228.6M Panggilan API</span>
+              <span class="text-slate-300">•</span>
+              <span>112.4K unduhan</span>
+            </div>
+          </div>
+
+          <!-- OLX Commercial & Industri -->
+          <div class="dataset-card bg-slate-50/70 border border-sky-100 rounded-2xl p-5 hover:border-sky-400 transition-all">
+            <div class="flex items-center justify-between mb-3">
+              <div class="h-10 px-3 bg-slate-700 rounded-lg flex items-center justify-center font-black text-slate-100 text-xs tracking-wider shadow-sm">
+                NIAGA & ALAT BERAT
+              </div>
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800">94 Dataset</span>
+            </div>
+            <h3 class="font-bold text-slate-900 text-base">Kendaraan Komersial & Mesin</h3>
+            <p class="text-xs text-slate-500 mt-1 mb-4">Truk logistik, pick-up niaga UMKM, dan perputaran alat industri sekunder di sentra manufaktur.</p>
+            <div class="pt-3 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
+              <span class="font-bold text-sky-900">31.4M Panggilan API</span>
+              <span class="text-slate-300">•</span>
+              <span>18.2K unduhan</span>
+            </div>
+          </div>
+
+          <!-- OLX Regional Commerce -->
+          <div class="dataset-card bg-slate-50/70 border border-sky-100 rounded-2xl p-5 hover:border-sky-400 transition-all">
+            <div class="flex items-center justify-between mb-3">
+              <div class="h-10 px-3 bg-sky-700 rounded-lg flex items-center justify-center font-black text-sky-100 text-xs tracking-wider shadow-sm">
+                GEO-TERITORIAL
+              </div>
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-sky-100 text-sky-800 border border-sky-200">145 Dataset</span>
+            </div>
+            <h3 class="font-bold text-slate-900 text-base">Indeks Pasar Wilayah & Aglomerasi</h3>
+            <p class="text-xs text-slate-500 mt-1 mb-4">Peta likuiditas antarkota (Tier 1, Tier 2, Tier 3), kecepatan transaksi COD, dan radius jangkauan iklan.</p>
+            <div class="pt-3 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
+              <span class="font-bold text-sky-900">76.3M Panggilan API</span>
+              <span class="text-slate-300">•</span>
+              <span>42.7K unduhan</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href="#datasets-section" class="inline-flex items-center gap-1.5 text-sm font-bold text-sky-700 hover:text-sky-900 hover:underline">
+            Lihat semua 1.800+ dataset pasar sekunder Indonesia
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Value Proposition: Mengapa Menggunakan Data OLX -->
+    <section class="py-16 bg-[#F0F7FF] border-t border-b border-sky-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <h2 class="text-3xl font-black text-brand-primary">Ambil Keputusan Berbasis <span class="text-sky-600">Data Riil Pasar</span></h2>
+          <p class="text-slate-600 mt-2">Fondasi data terpercaya bagi multifinance, perbankan, konsultan riset, dan pelaku industri.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Feature 1 -->
+          <div class="bg-white rounded-2xl p-8 border border-sky-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center mb-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">Valuasi Harga Pasar yang Akurat</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Akses kalkulasi harga wajar berbasis jutaan titik listing aktif dan historis untuk mitigasi risiko pembiayaan kredit otomotif & KPR.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-xs text-slate-500 font-medium">Format JSON, Parquet, CSV terstandarisasi</span>
+              <button onclick="scrollToDatasets()" class="text-sm font-bold text-sky-700 hover:underline">Eksplor katalog →</button>
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="bg-white rounded-2xl p-8 border border-sky-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center mb-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">Streaming API Real-time Berkepadatan Tinggi</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Sinkronkan bot pencarian pasar, sistem ERP dealer mobil, dan dashboard BI korporat Anda dengan latensi di bawah 250 milidetik.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-xs text-slate-500 font-medium">REST API & Webhooks terenkripsi</span>
+              <button onclick="triggerToast('Membuka dokumentasi integrasi API OLX...')" class="text-sm font-bold text-sky-700 hover:underline">Dokumentasi API →</button>
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="bg-white rounded-2xl p-8 border border-sky-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center mb-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">Analisis Likuiditas Wilayah & Spasial</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Pahami seberapa cepat suatu model kendaraan atau tipe rumah terserap pasar di level kelurahan, kecamatan, hingga per kota madya.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-xs text-slate-500 font-medium">Indikator Days-to-Sell terverifikasi</span>
+              <button onclick="triggerToast('Menampilkan indeks likuiditas regional...')" class="text-sm font-bold text-sky-700 hover:underline">Lihat heat-map →</button>
+            </div>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="bg-white rounded-2xl p-8 border border-sky-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center mb-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">Langganan Notifikasi Tren Harga</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Terima pembaruan berkala dan peringatan volatilitas harga komoditas sekunder ketika terjadi fluktuasi signifikan di pasar.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-xs text-slate-500 font-medium">Alerts via email & webhook</span>
+              <button onclick="triggerToast('Modal langganan update dataset OLX')" class="text-sm font-bold text-sky-700 hover:underline">Aktifkan alert →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. "Dataset Paling Sering Digunakan" with Past 24h vs All-time tabs -->
+    <section id="datasets-section" class="py-16 bg-white relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div>
+            <h2 class="text-3xl font-black text-brand-primary">
+              Dataset Pasar <span class="text-sky-600">Paling Aktif</span>
+            </h2>
+            <p class="text-slate-600 text-sm mt-1">Umpan data langsung yang mentenagai analisis multifinance, perbankan, dan analis industri.</p>
+          </div>
+
+          <!-- Timeframe Switcher Tabs -->
+          <div class="inline-flex p-1 bg-slate-100 rounded-full self-start md:self-auto border border-sky-100">
+            <button 
+              id="tab-recent" 
+              onclick="setTimeframe('recent')" 
+              class="px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition bg-sky-500 text-white shadow-sm"
+            >
+              24 Jam Terakhir
+            </button>
+            <button 
+              id="tab-alltime" 
+              onclick="setTimeframe('alltime')" 
+              class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900"
+            >
+              Sepanjang Masa
+            </button>
+          </div>
+        </div>
+
+        <!-- Datasets Card Grid -->
+        <div id="datasets-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+        <div class="mt-10 text-center">
+          <button onclick="triggerToast('Membuka penjelajah katalog lengkap 1.800+ dataset OLX...')" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-sky-500 font-bold text-sky-700 hover:bg-sky-500 hover:text-white transition shadow-sm">
+            <span>Buka Seluruh Direktori Data OLX Indonesia</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. "Pemanfaatan Data OLX oleh Publik & Industri" Showcase -->
+    <section id="creations-section" class="py-16 bg-[#F4F9FD] border-t border-sky-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <h2 class="text-3xl font-black text-brand-primary">
+            Riset & Produk <span class="text-sky-600">Mitra Industri</span> Berbasis Data OLX
+          </h2>
+          <p class="text-slate-600 text-sm sm:text-base mt-2">
+            Bagaimana media berita, perusahaan multifinance, dan analis memanfaatkan data pasar sekunder OLX.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Project 1: Katadata Insight -->
+          <div class="dataset-card bg-white rounded-2xl border border-sky-100 overflow-hidden flex flex-col justify-between">
+            <div class="p-5">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[11px] font-bold tracking-wide uppercase text-sky-800 bg-sky-100 px-2.5 py-1 rounded-md">Laporan Khusus</span>
+                <span class="text-xs text-slate-500 font-semibold">Katadata Indonesia</span>
+              </div>
+              <h3 class="font-bold text-slate-900 text-base leading-snug">Dinamika Harga Mobil Bekas Pasca Lebaran di Jabodetabek</h3>
+              <p class="text-xs text-slate-600 mt-2 line-clamp-3">
+                Memetakan anjloknya depresiasi segmen Low-MPV dan lonjakan permintaan mobil keluarga irit BBM pasca arus mudik tahunan.
+              </p>
+            </div>
+            <div class="p-4 bg-sky-50/50 border-t border-sky-100 flex items-center justify-between text-xs">
+              <span class="text-slate-600 font-semibold">OLX Autos Pricing Index</span>
+              <button onclick="triggerToast('Membuka referensi riset media...')" class="text-sky-700 font-bold hover:underline">Baca Riset →</button>
+            </div>
+          </div>
+
+          <!-- Project 2: Asosiasi Perusahaan Pembiayaan -->
+          <div class="dataset-card bg-white rounded-2xl border border-sky-100 overflow-hidden flex flex-col justify-between">
+            <div class="p-5">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[11px] font-bold tracking-wide uppercase text-cyan-800 bg-cyan-100 px-2.5 py-1 rounded-md">Fintech & Risk</span>
+                <span class="text-xs text-slate-500 font-semibold">Multifinance Analytics</span>
+              </div>
+              <h3 class="font-bold text-slate-900 text-base leading-snug">Automated Valuation Model (AVM) Jaminan Kredit Motor</h3>
+              <p class="text-xs text-slate-600 mt-2 line-clamp-3">
+                Integrasi skor valuasi agunan otomatis untuk persetujuan kredit dana tunai dengan acuan harga riil transaksi di 24 kota.
+              </p>
+            </div>
+            <div class="p-4 bg-sky-50/50 border-t border-sky-100 flex items-center justify-between text-xs">
+              <span class="text-slate-600 font-semibold">MotoMarket Liquid Matrix</span>
+              <button onclick="triggerToast('Menampilkan whitepaper industri pembiayaan...')" class="text-sky-700 font-bold hover:underline">Lihat Model →</button>
+            </div>
+          </div>
+
+          <!-- Project 3: Rumah123 / Proptech -->
+          <div class="dataset-card bg-white rounded-2xl border border-sky-100 overflow-hidden flex flex-col justify-between">
+            <div class="p-5">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[11px] font-bold tracking-wide uppercase text-blue-800 bg-blue-100 px-2.5 py-1 rounded-md">Indeks Properti</span>
+                <span class="text-xs text-slate-500 font-semibold">Urban Land Institute</span>
+              </div>
+              <h3 class="font-bold text-slate-900 text-base leading-snug">Pergeseran Minat Rumah Sekunder di Koridor Jalur LRT & MRT</h3>
+              <p class="text-xs text-slate-600 mt-2 line-clamp-3">
+                Analisis perbandingan harga jual rumah second di radius 2 km dari stasiun komuter Jabodebek menggunakan data geospasial OLX.
+              </p>
+            </div>
+            <div class="p-4 bg-sky-50/50 border-t border-sky-100 flex items-center justify-between text-xs">
+              <span class="text-slate-600 font-semibold">OLX Properti Transaksi</span>
+              <button onclick="triggerToast('Membuka laporan spasial hunian...')" class="text-sky-700 font-bold hover:underline">Unduh Laporan →</button>
+            </div>
+          </div>
+
+          <!-- Project 4: Tech in Asia Research -->
+          <div class="dataset-card bg-white rounded-2xl border border-sky-100 overflow-hidden flex flex-col justify-between">
+            <div class="p-5">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[11px] font-bold tracking-wide uppercase text-indigo-800 bg-indigo-100 px-2.5 py-1 rounded-md">Circular Economy</span>
+                <span class="text-xs text-slate-500 font-semibold">Tech In Asia</span>
+              </div>
+              <h3 class="font-bold text-slate-900 text-base leading-snug">Tren Pasar Recommerce & Perpanjangan Siklus Hidup Gadget</h3>
+              <p class="text-xs text-slate-600 mt-2 line-clamp-3">
+                Mengukur volume perputaran smartphone bekas di Indonesia dan kontribusinya terhadap pengurangan limbah elektronik (e-waste).
+              </p>
+            </div>
+            <div class="p-4 bg-sky-50/50 border-t border-sky-100 flex items-center justify-between text-xs">
+              <span class="text-slate-600 font-semibold">Gadget Lifecycle Index</span>
+              <button onclick="triggerToast('Membuka studi ekonomi sirkular...')" class="text-sky-700 font-bold hover:underline">Pelajari Tren →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Platform Usage Totals Banner -->
+    <section class="py-16 bg-white border-b border-sky-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h3 class="text-xl sm:text-2xl font-black text-brand-primary">
+          Data Terbuka untuk <span class="text-sky-600">Inovasi Komersial</span>, <span class="text-sky-600">Riset Akademik</span>, dan Analisis Publik
+        </h3>
+        <p class="text-slate-600 text-sm mt-1">Berapa besar denyut pasar jual-beli yang terekam setiap hari di platform OLX?</p>
+
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <!-- Metric 1 -->
+          <div class="p-6 rounded-2xl bg-sky-50/80 border border-sky-200 text-center">
+            <div class="text-4xl sm:text-5xl font-black text-brand-primary tracking-tight">1.94<span class="text-2xl font-bold text-sky-500">Miliar</span></div>
+            <p class="text-sm font-bold text-slate-900 mt-2">Total Kueri API Bulanan</p>
+            <p class="text-xs text-slate-600 mt-0.5"><span class="font-bold text-slate-800">64.5 Juta</span> panggilan per hari</p>
+          </div>
+
+          <!-- Metric 2 -->
+          <div class="p-6 rounded-2xl bg-sky-50/80 border border-sky-200 text-center">
+            <div class="text-4xl sm:text-5xl font-black text-brand-primary tracking-tight">14.8<span class="text-2xl font-bold text-sky-500">Juta</span></div>
+            <p class="text-sm font-bold text-slate-900 mt-2">Iklan Terverifikasi Aktif</p>
+            <p class="text-xs text-slate-600 mt-0.5"><span class="font-bold text-slate-800">120 Ribu+</span> posting iklan baru harian</p>
+          </div>
+
+          <!-- Metric 3 -->
+          <div class="p-6 rounded-2xl bg-sky-50/80 border border-sky-200 text-center">
+            <div class="text-4xl sm:text-5xl font-black text-brand-primary tracking-tight">4.28<span class="text-2xl font-bold text-sky-500">Juta</span></div>
+            <p class="text-sm font-bold text-slate-900 mt-2">Unduhan Dataset Terbuka</p>
+            <p class="text-xs text-slate-600 mt-0.5"><span class="font-bold text-slate-800">18.4 Ribu</span> unduhan peneliti per bulan</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 9. Official Footer OLX Data -->
+  <footer class="bg-brand-primary text-slate-300 py-12 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col items-center justify-center space-y-6 text-center">
+        <!-- OLX Data Footer Brand -->
+        <a href="#" class="inline-flex items-center gap-2 text-white hover:text-sky-300 transition-colors">
+          <div class="flex items-center font-black tracking-tighter text-2xl text-white">
+            <span>O</span><span class="text-sky-400">L</span><span class="text-sky-300">X</span>
+            <span class="ml-2 font-bold text-xs px-2 py-0.5 bg-sky-900/60 text-sky-300 border border-sky-500/30 rounded">DATA INDONESIA</span>
+          </div>
+        </a>
+
+        <!-- Footer Links -->
+        <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-slate-300 font-medium">
+          <a href="#" onclick="triggerToast('Menghubungkan ke Tim Kemitraan Data OLX...')" class="hover:text-sky-300 transition">Kemitraan Perbankan & Asuransi</a>
+          <a href="#" onclick="triggerToast('Status Sistem API: Semua layanan beroperasi normal (99.98% uptime)')" class="hover:text-sky-300 transition">Status Sistem API</a>
+          <a href="#" onclick="triggerToast('Membuka Ketentuan Lisensi Terbuka Data OLX')" class="hover:text-sky-300 transition">Lisensi Penggunaan Data</a>
+          <a href="#" onclick="triggerToast('Kebijakan Privasi & Perlindungan Data Pribadi')" class="hover:text-sky-300 transition">Privasi & Syarat Ketentuan</a>
+          <a href="#" onclick="triggerToast('Membuka dokumentasi OpenAPI Swagger')" class="hover:text-sky-300 transition">Spesifikasi OpenAPI</a>
+          <a href="#" onclick="triggerToast('Hubungi dukungan teknis data')" class="hover:text-sky-300 transition">Bantuan & Kontak</a>
+        </div>
+
+        <p class="text-slate-400 text-[11px] max-w-xl">
+          © 2026 PT Tokobagus (OLX Indonesia) — Hak Cipta Dilindungi. Platform Data Terbuka dipersembahkan untuk kemajuan analisis ekonomi digital dan ekosistem pasar sekunder nasional.
+        </p>
+      </div>
+    </div>
+  </footer>
+  </div>
+
+  <!-- 10. Interactive Dataset Detail Modal -->
+  <div id="dataset-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl transform transition-all relative border border-sky-100">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-1 rounded-lg">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <div class="flex items-center gap-2 mb-3">
+        <span id="modal-tag" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-100 text-sky-800">OTOMOTIF</span>
+        <span id="modal-agency" class="text-xs text-slate-500 font-semibold">OLX Autos Division</span>
+      </div>
+
+      <h3 id="modal-title" class="text-xl font-bold text-slate-900 leading-snug">Judul Dataset</h3>
+      <p id="modal-desc" class="text-sm text-slate-600 mt-2 mb-4 leading-relaxed">Penjelasan cakupan parameter, metodologi pengumpulan, dan struktur kolom dataset.</p>
+
+      <div class="bg-slate-50 rounded-xl p-3.5 mb-5 border border-slate-200">
+        <div class="text-xs text-slate-500 mb-1">ID Dataset Unik (API Endpoint):</div>
+        <div class="flex items-center justify-between">
+          <code id="modal-id" class="text-xs font-mono font-bold text-sky-700 truncate max-w-[260px]">d_olx_12345678</code>
+          <button onclick="copyDatasetId()" class="text-xs px-2.5 py-1 bg-white border border-slate-300 hover:bg-slate-100 rounded text-slate-800 font-bold transition">
+            Salin ID
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 mb-5">
+        <div class="p-3 bg-sky-50/70 rounded-xl text-center border border-sky-100">
+          <div class="text-xs text-slate-500">Panggilan Kueri API</div>
+          <div id="modal-api" class="text-base font-black text-slate-900 mt-0.5">-</div>
+        </div>
+        <div class="p-3 bg-sky-50/70 rounded-xl text-center border border-sky-100">
+          <div class="text-xs text-slate-500">Total Unduhan File</div>
+          <div id="modal-downloads" class="text-base font-black text-slate-900 mt-0.5">-</div>
+        </div>
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="triggerToast('Menghubungkan ke Sandbox REST API OLX Data...')" class="flex-1 py-2.5 px-4 bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold rounded-xl transition shadow">
+          Uji Coba API & Data
+        </button>
+        <button onclick="closeModal()" class="py-2.5 px-4 border border-slate-300 hover:bg-slate-100 text-slate-700 text-sm font-semibold rounded-xl transition">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification element -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none bg-brand-primary text-white text-sm px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 border border-sky-400/40">
+    <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <span id="toast-text">Pemberitahuan portal data</span>
+  </div>
+
+  <!-- 11. Application Logic & Data Controller (OLX Data) -->
+  <script>
+    // Dataset payload representatif untuk pasar OLX Indonesia
+    const DATASETS = [
+      {
+        id: "d_olx_avanza_xenia_price_index",
+        title: "Indeks Harga & Depresiasi Tahunan LMPV (Avanza, Xenia, Xpander)",
+        agency: "OLX Autos Indonesia",
+        topic: "otomotif",
+        iconColor: "text-sky-700 bg-sky-100",
+        description: "Data historis transacted listing harga mobil sejuta umat tahun pembuatan 2016-2024, mencakup transmisi, jarak tempuh, dan wilayah penjualan.",
+        allTime: { apiCalls: "348.4M", downloadsCount: "128.5K" },
+        past24Hours: { apiCalls: "2.8M", downloadsCount: "420" }
+      },
+      {
+        id: "d_olx_days_to_sell_motorcycle",
+        title: "Metrik Days-to-Sell (Kecepatan Laku) Motor Matik 110cc - 160cc",
+        agency: "OLX MotoMarket",
+        topic: "otomotif",
+        iconColor: "text-blue-600 bg-blue-100",
+        description: "Durasi rata-rata hari dari penayangan iklan hingga unit ditandai laku untuk model Honda Beat, Scoopy, Vario, Yamaha NMAX, dan Aerox.",
+        allTime: { apiCalls: "118.2M", downloadsCount: "82.4K" },
+        past24Hours: { apiCalls: "840K", downloadsCount: "194" }
+      },
+      {
+        id: "d_olx_properti_jabodetabek_sqm",
+        title: "Median Harga Penawaran Rumah Sekunder per m² di Jabodetabek",
+        agency: "OLX Properti Analytics",
+        topic: "properti",
+        iconColor: "text-cyan-700 bg-cyan-100",
+        description: "Agregasi harga per meter persegi tanah & bangunan di 5 kota administrasi DKI Jakarta, Tangerang Selatan, Bekasi, Depok, dan Bogor.",
+        allTime: { apiCalls: "72.1M", downloadsCount: "64.3K" },
+        past24Hours: { apiCalls: "312K", downloadsCount: "88" }
+      },
+      {
+        id: "d_olx_iphone_samsung_flagship_retention",
+        title: "Indeks Retensi Nilai Jual Kembali Smartphone Flagship (36 Bulan)",
+        agency: "OLX Gadget Division",
+        topic: "elektronik",
+        iconColor: "text-indigo-600 bg-indigo-100",
+        description: "Penyusutan nilai harga iPhone dan lini Samsung Galaxy S-Series pasca rilis model suksesor, dihitung dari listing terverifikasi.",
+        allTime: { apiCalls: "94.6M", downloadsCount: "41.8K" },
+        past24Hours: { apiCalls: "580K", downloadsCount: "142" }
+      },
+      {
+        id: "d_olx_regional_liquidity_tier2_tier3",
+        title: "Skor Likuiditas Transaksi C2C Jawa Tengah & Jawa Timur",
+        agency: "OLX Geo-Intelligence",
+        topic: "geografis",
+        iconColor: "text-sky-600 bg-sky-100",
+        description: "Indeks perputaran barang bekas di kota lapis 2 dan 3 (Solo, Semarang, Malang, Jember) berdasarkan rasio chat pembeli per iklan.",
+        allTime: { apiCalls: "45.8M", downloadsCount: "18.2K" },
+        past24Hours: { apiCalls: "198K", downloadsCount: "54" }
+      },
+      {
+        id: "d_olx_streaming_active_listings_feed",
+        title: "Feed Real-Time Listing Iklan Baru Nasional (Webhooks/Kafka)",
+        agency: "OLX Engineering Platform",
+        topic: "api",
+        iconColor: "text-sky-500 bg-sky-100",
+        description: "Aliran streaming kueri pembaruan listing baru, perubahan harga diskon penjual, dan status persediaan di seluruh Indonesia.",
+        allTime: { apiCalls: "1.28B", downloadsCount: "310K" },
+        past24Hours: { apiCalls: "14.2M", downloadsCount: "1.1K" }
+      }
+    ];
+
+    let currentPeriod = 'recent';
+    let currentTopicFilter = 'all';
+    let currentSearchTerm = '';
+
+    // Inisialisasi awal saat halaman dimuat
+    window.onload = function() {
+      renderDatasets();
+    };
+
+    // Toggle Verifikasi OLX Masthead Accordion
+    function toggleMasthead() {
+      const content = document.getElementById('masthead-content');
+      const arrow = document.getElementById('masthead-arrow');
+      const btn = document.getElementById('masthead-toggle-btn');
+      const isHidden = content.classList.contains('hidden');
+
+      if (isHidden) {
+        content.classList.remove('hidden');
+        arrow.classList.add('rotate-180');
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.classList.add('hidden');
+        arrow.classList.remove('rotate-180');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    // Toggle Navigasi Seluler (Mobile Drawer)
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobile-nav-panel');
+      const hamburger = document.getElementById('hamburger-icon');
+      const close = document.getElementById('close-icon');
+
+      if (nav.classList.contains('hidden')) {
+        nav.classList.remove('hidden');
+        hamburger.classList.add('hidden');
+        close.classList.remove('hidden');
+      } else {
+        nav.classList.add('hidden');
+        hamburger.classList.remove('hidden');
+        close.classList.add('hidden');
+      }
+    }
+
+    // Beralih Periode (24 Jam vs Sepanjang Masa)
+    function setTimeframe(period) {
+      currentPeriod = period;
+      const recentBtn = document.getElementById('tab-recent');
+      const alltimeBtn = document.getElementById('tab-alltime');
+
+      if (period === 'recent') {
+        recentBtn.className = "px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition bg-sky-500 text-white shadow-sm";
+        alltimeBtn.className = "px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900";
+      } else {
+        alltimeBtn.className = "px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition bg-sky-500 text-white shadow-sm";
+        recentBtn.className = "px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900";
+      }
+      renderDatasets();
+    }
+
+    // Filter Dataset Berdasarkan Kategori Topik
+    function filterByTopic(topic) {
+      currentTopicFilter = topic;
+      const buttons = document.querySelectorAll('#topic-pills .topic-btn');
+      buttons.forEach(btn => {
+        const text = btn.innerText.toLowerCase();
+        if ((topic === 'all' && text.includes('semua')) || 
+            (topic === 'otomotif' && text.includes('mobil')) || 
+            (topic === 'properti' && text.includes('properti')) || 
+            (topic === 'elektronik' && text.includes('gadget')) || 
+            (topic === 'likuiditas' && text.includes('likuiditas')) || 
+            (topic === 'geografis' && text.includes('wilayah')) || 
+            (topic === 'api' && text.includes('streaming'))) {
+          btn.className = "topic-btn badge-pill px-4 py-2 rounded-full border border-sky-500 bg-sky-500 text-white text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm";
+        } else {
+          btn.className = "topic-btn badge-pill px-4 py-2 rounded-full border border-sky-200 bg-white hover:border-sky-400 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm";
+        }
+      });
+      renderDatasets();
+      document.getElementById('datasets-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Live search input filtering
+    function liveFilterDatasets(query) {
+      currentSearchTerm = query.trim().toLowerCase();
+      renderDatasets();
+      const feedback = document.getElementById('search-feedback');
+      if (currentSearchTerm) {
+        feedback.innerText = `Menyaring dataset yang mengandung kata "${currentSearchTerm}"...`;
+      } else {
+        feedback.innerText = '';
+      }
+    }
+
+    function handleSearch() {
+      const input = document.getElementById('search-input');
+      liveFilterDatasets(input.value);
+      document.getElementById('datasets-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function scrollToDatasets() {
+      document.getElementById('datasets-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Render dataset items to the DOM
+    function renderDatasets() {
+      const container = document.getElementById('datasets-grid');
+      container.innerHTML = '';
+
+      let filtered = DATASETS.filter(item => {
+        const matchesTopic = currentTopicFilter === 'all' || item.topic === currentTopicFilter || (currentTopicFilter === 'likuiditas' && item.title.toLowerCase().includes('days-to-sell'));
+        const matchesSearch = !currentSearchTerm || 
+          item.title.toLowerCase().includes(currentSearchTerm) || 
+          item.agency.toLowerCase().includes(currentSearchTerm) || 
+          item.topic.toLowerCase().includes(currentSearchTerm) ||
+          item.description.toLowerCase().includes(currentSearchTerm);
+        return matchesTopic && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-500 bg-slate-50 rounded-2xl border border-dashed border-sky-200">
+            <svg class="mx-auto h-10 w-10 text-sky-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p class="font-bold text-slate-800">Tidak ada dataset yang cocok</p>
+            <p class="text-xs text-slate-500 mt-1">Coba gunakan kata kunci lain seperti "Avanza", "Motor", "Rumah", atau reset filter topik.</p>
+            <button onclick="resetFilters()" class="mt-4 px-4 py-1.5 rounded-full text-xs font-bold bg-sky-500 text-white hover:bg-sky-600 transition">Reset Pencarian</button>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(ds => {
+        const stats = currentPeriod === 'recent' ? ds.past24Hours : ds.allTime;
+        const card = document.createElement('div');
+        card.className = "dataset-card cursor-pointer flex flex-col justify-between rounded-2xl border border-sky-100 bg-white p-5 hover:border-sky-400 transition-all";
+        card.onclick = () => openModal(ds);
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="inline-flex items-center justify-center p-2 rounded-xl text-xs font-bold ${ds.iconColor}">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+              </span>
+              <span class="text-[11px] font-bold text-sky-800 uppercase tracking-wider bg-sky-50 px-2 py-0.5 rounded border border-sky-100">${ds.topic}</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-base leading-snug line-clamp-2">${ds.title}</h4>
+            <p class="text-xs text-slate-500 mt-1 line-clamp-2 font-medium">${ds.agency}</p>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
+            <span class="font-bold text-sky-800">${stats.apiCalls} Panggilan API</span>
+            <span class="text-slate-300">•</span>
+            <span>${stats.downloadsCount} unduhan</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function resetFilters() {
+      currentSearchTerm = '';
+      currentTopicFilter = 'all';
+      document.getElementById('search-input').value = '';
+      document.getElementById('search-feedback').innerText = '';
+      filterByTopic('all');
+    }
+
+    // Modal Controller
+    let activeDataset = null;
+    function openModal(ds) {
+      activeDataset = ds;
+      const stats = currentPeriod === 'recent' ? ds.past24Hours : ds.allTime;
+      document.getElementById('modal-title').innerText = ds.title;
+      document.getElementById('modal-agency').innerText = ds.agency;
+      document.getElementById('modal-tag').innerText = ds.topic.toUpperCase();
+      document.getElementById('modal-desc').innerText = ds.description;
+      document.getElementById('modal-id').innerText = ds.id;
+      document.getElementById('modal-api').innerText = `${stats.apiCalls} (${currentPeriod === 'recent' ? '24 jam terakhir' : 'kumulatif'})`;
+      document.getElementById('modal-downloads').innerText = `${stats.downloadsCount} (${currentPeriod === 'recent' ? '24 jam terakhir' : 'kumulatif'})`;
+      document.getElementById('dataset-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('dataset-modal').classList.add('hidden');
+    }
+
+    // Salin ID Dataset
+    function copyDatasetId() {
+      if (!activeDataset) return;
+      const dummy = document.createElement('textarea');
+      dummy.value = activeDataset.id;
+      document.body.appendChild(dummy);
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+      triggerToast(`ID Dataset berhasil disalin: ${activeDataset.id}`);
+    }
+
+    // Custom Toast Notification Trigger (Tanpa window.alert)
+    let toastTimeout;
+    function triggerToast(message) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      toastText.innerText = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3200);
+    }
+  </script>
+</body>
+</html>
