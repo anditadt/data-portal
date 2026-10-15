@@ -174,8 +174,8 @@
           <a href="#datasets-section" class="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition-colors">Katalog Dataset</a>
           <a href="#agencies-section" class="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition-colors">Divisi & Vertikal</a>
           <a href="#creations-section" class="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition-colors">Studi Kasus</a>
-          <a href="#" onclick="triggerToast('Membuka dokumentasi REST API dan Webhook OLX...')" class="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition-colors flex items-center gap-1">
-            Panduan API
+          <a href="#" onclick="openExplorerView(); return false;" class="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition-colors flex items-center gap-1">
+            Jelajah Data & API
             <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
           </a>
           <div class="h-5 w-px bg-slate-200 mx-2"></div>
@@ -203,7 +203,7 @@
       <a href="#datasets-section" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-md text-base font-semibold text-slate-800 hover:bg-sky-50 hover:text-sky-800">Katalog Dataset</a>
       <a href="#agencies-section" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-md text-base font-semibold text-slate-800 hover:bg-sky-50 hover:text-sky-800">Divisi & Vertikal Pasar</a>
       <a href="#creations-section" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-md text-base font-semibold text-slate-800 hover:bg-sky-50 hover:text-sky-800">Studi Kasus & Riset</a>
-      <button onclick="triggerToast('Membuka dokumentasi API Developer'); toggleMobileNav();" class="block w-full text-left px-3 py-2 rounded-md text-base font-semibold text-slate-800 hover:bg-sky-50">Panduan REST API</button>
+      <button onclick="openExplorerView(); toggleMobileNav();" class="block w-full text-left px-3 py-2 rounded-md text-base font-semibold text-slate-800 hover:bg-sky-50">Jelajah Data & REST API</button>
       <div class="pt-2">
         <button onclick="triggerToast('Portal login pengembang & mitra bisnis OLX Data')" class="w-full text-center px-4 py-2.5 rounded-lg text-sm font-bold bg-sky-500 text-white hover:bg-sky-600 shadow">
           Masuk Akun Pengembang
@@ -212,6 +212,8 @@
     </div>
   </header>
 
+  <!-- MAIN WRAPPER: HOME PAGE VIEW -->
+  <div id="landing-page-view" class="flex flex-col flex-grow">
   <!-- 3. Hero Section with Soft Light Blue Gradient & Quick Topic Pills -->
   <main class="flex-grow">
     <section class="relative pt-12 pb-24 md:pt-20 md:pb-32 overflow-hidden bg-gradient-to-b from-sky-100/70 via-sky-50/40 to-white">
@@ -543,7 +545,7 @@
         </div>
 
         <div class="mt-10 text-center">
-          <button onclick="triggerToast('Membuka penjelajah katalog lengkap 1.800+ dataset OLX...')" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-sky-500 font-bold text-sky-700 hover:bg-sky-500 hover:text-white transition shadow-sm">
+          <button onclick="openExplorerView()" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-sky-500 font-bold text-sky-700 hover:bg-sky-500 hover:text-white transition shadow-sm">
             <span>Buka Seluruh Direktori Data OLX Indonesia</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
           </button>
@@ -672,89 +674,339 @@
       </div>
     </section>
   </main>
+  </div> <!-- END LANDING PAGE VIEW -->
 
-  <!-- 9. Official Footer OLX Data -->
-  <footer class="bg-brand-primary text-slate-300 py-12 text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col items-center justify-center space-y-6 text-center">
-        <!-- OLX Data Footer Brand -->
-        <a href="#" class="inline-flex items-center gap-2 text-white hover:text-sky-300 transition-colors">
-          <div class="flex items-center font-black tracking-tighter text-2xl text-white">
-            <span>O</span><span class="text-sky-400">L</span><span class="text-sky-300">X</span>
-            <span class="ml-2 font-bold text-xs px-2 py-0.5 bg-sky-900/60 text-sky-300 border border-sky-500/30 rounded">DATA INDONESIA</span>
+  <!-- NEW VIEW: DATASET EXPLORER & API PLAYGROUND (Replika Layout Screenshot) -->
+  <div id="explorer-page-view" class="hidden flex-col flex-grow bg-white min-h-[calc(100vh-6rem)]">
+    <!-- Top Filter & Search Bar Header -->
+    <div class="border-b border-slate-200 bg-white sticky top-[4rem] sm:top-[4.5rem] z-30 px-4 sm:px-6 py-2.5">
+      <div class="max-w-[1700px] mx-auto flex flex-wrap items-center justify-between gap-3">
+        <!-- Back Button & Search Input -->
+        <div class="flex items-center gap-3 flex-1 min-w-[280px]">
+          <button onclick="returnToLandingView()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-sky-700 hover:bg-sky-50 rounded-lg border border-slate-200 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            <span>Kembali</span>
+          </button>
+          
+          <div class="relative flex-1 max-w-md">
+            <input 
+              id="explorer-search-input"
+              type="text" 
+              placeholder="Cari dataset atau API..." 
+              class="w-full h-9 pl-9 pr-8 text-xs rounded-lg border border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-400 transition"
+              oninput="filterExplorerList(this.value)"
+            />
+            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <button onclick="document.getElementById('explorer-search-input').value=''; filterExplorerList('');" class="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 text-xs">✕</button>
           </div>
-        </a>
-
-        <!-- Footer Links -->
-        <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-slate-300 font-medium">
-          <a href="#" onclick="triggerToast('Menghubungkan ke Tim Kemitraan Data OLX...')" class="hover:text-sky-300 transition">Kemitraan Perbankan & Asuransi</a>
-          <a href="#" onclick="triggerToast('Status Sistem API: Semua layanan beroperasi normal (99.98% uptime)')" class="hover:text-sky-300 transition">Status Sistem API</a>
-          <a href="#" onclick="triggerToast('Membuka Ketentuan Lisensi Terbuka Data OLX')" class="hover:text-sky-300 transition">Lisensi Penggunaan Data</a>
-          <a href="#" onclick="triggerToast('Kebijakan Privasi & Perlindungan Data Pribadi')" class="hover:text-sky-300 transition">Privasi & Syarat Ketentuan</a>
-          <a href="#" onclick="triggerToast('Membuka dokumentasi OpenAPI Swagger')" class="hover:text-sky-300 transition">Spesifikasi OpenAPI</a>
-          <a href="#" onclick="triggerToast('Hubungi dukungan teknis data')" class="hover:text-sky-300 transition">Bantuan & Kontak</a>
         </div>
 
-        <p class="text-slate-400 text-[11px] max-w-xl">
-          © 2026 PT Tokobagus (OLX Indonesia) — Hak Cipta Dilindungi. Platform Data Terbuka dipersembahkan untuk kemajuan analisis ekonomi digital dan ekosistem pasar sekunder nasional.
-        </p>
+        <!-- Filter Dropdowns Pill Row (Sesuai Screenshot: Transport, Format, Agencies, Sort) -->
+        <div class="flex items-center gap-2 overflow-x-auto py-1 text-xs">
+          <!-- Category Filter Pill -->
+          <div class="relative">
+            <select id="filter-explorer-topic" onchange="filterExplorerByTopic(this.value)" class="appearance-none bg-sky-50/70 border border-sky-300 text-sky-900 font-semibold rounded-md px-2.5 py-1.5 pr-6 cursor-pointer focus:outline-none hover:bg-sky-100">
+              <option value="all">Kategori: Semua</option>
+              <option value="otomotif">Mobil & Motor Bekas</option>
+              <option value="properti">Properti & Rumah</option>
+              <option value="elektronik">Gadget & Elektronik</option>
+              <option value="geografis">Wilayah & Demografi</option>
+              <option value="api">Real-time Streaming API</option>
+            </select>
+            <svg class="w-3 h-3 text-sky-700 absolute right-2 top-2.5 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+          </div>
+
+          <!-- Format Filter Pill -->
+          <div class="relative">
+            <select id="filter-explorer-format" onchange="filterExplorerFormat(this.value)" class="appearance-none bg-white border border-slate-300 text-slate-700 font-medium rounded-md px-2.5 py-1.5 pr-6 cursor-pointer focus:outline-none hover:bg-slate-50">
+              <option value="all">Format: Semua</option>
+              <option value="API">REST API</option>
+              <option value="CSV">CSV / Spreadsheet</option>
+              <option value="JSON">JSON / GeoJSON</option>
+              <option value="STREAM">Kafka Stream</option>
+            </select>
+            <svg class="w-3 h-3 text-slate-400 absolute right-2 top-2.5 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+          </div>
+
+          <!-- Unit / Agency Filter Pill -->
+          <div class="relative">
+            <select id="filter-explorer-agency" onchange="filterExplorerAgency(this.value)" class="appearance-none bg-white border border-slate-300 text-slate-700 font-medium rounded-md px-2.5 py-1.5 pr-6 cursor-pointer focus:outline-none hover:bg-slate-50">
+              <option value="all">Divisi: Semua Unit</option>
+              <option value="OLX Autos">OLX Autos</option>
+              <option value="OLX Properti">OLX Properti</option>
+              <option value="OLX MotoMarket">OLX MotoMarket</option>
+              <option value="OLX Gadget">OLX Gadget</option>
+              <option value="OLX Geo-Intelligence">OLX Geo-Intelligence</option>
+            </select>
+            <svg class="w-3 h-3 text-slate-400 absolute right-2 top-2.5 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+          </div>
+
+          <!-- Clear filter -->
+          <button onclick="resetExplorerFilters()" class="text-xs font-semibold text-sky-700 hover:text-sky-900 underline px-1.5">Reset Filter</button>
+        </div>
       </div>
     </div>
-  </footer>
-  </div>
 
-  <!-- 10. Interactive Dataset Detail Modal -->
-  <div id="dataset-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl transform transition-all relative border border-sky-100">
-      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-1 rounded-lg">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-      </button>
-
-      <div class="flex items-center gap-2 mb-3">
-        <span id="modal-tag" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-100 text-sky-800">OTOMOTIF</span>
-        <span id="modal-agency" class="text-xs text-slate-500 font-semibold">OLX Autos Division</span>
+    <!-- 3-Column Main Explorer Body -->
+    <div class="max-w-[1700px] mx-auto w-full flex-grow grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-10rem)]">
+      
+      <!-- COL 1: Left List (Datasets Column, ~3 cols on large screens) -->
+      <div class="lg:col-span-3 border-r border-slate-200 bg-slate-50/50 flex flex-col h-full max-h-[calc(100vh-10rem)] overflow-y-auto">
+        <div class="p-3.5 border-b border-slate-200 bg-white sticky top-0 z-10 flex items-center justify-between">
+          <span id="results-count-text" class="text-xs font-bold text-slate-700">12 dataset ditemukan</span>
+          <span class="text-[11px] font-medium text-slate-400">Diurutkan: Relevansi</span>
+        </div>
+        <div id="explorer-dataset-list" class="divide-y divide-slate-200/80">
+          <!-- Populated by JavaScript -->
+        </div>
       </div>
 
-      <h3 id="modal-title" class="text-xl font-bold text-slate-900 leading-snug">Judul Dataset</h3>
-      <p id="modal-desc" class="text-sm text-slate-600 mt-2 mb-4 leading-relaxed">Penjelasan cakupan parameter, metodologi pengumpulan, dan struktur kolom dataset.</p>
+      <!-- COL 2: Center Details Panel (~5 cols on large screens) -->
+      <div class="lg:col-span-5 p-6 border-r border-slate-200 overflow-y-auto max-h-[calc(100vh-10rem)] bg-white">
+        <!-- Topic Tag & Format -->
+        <div class="flex items-center gap-2 mb-2">
+          <span id="detail-topic-badge" class="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-sky-100 text-sky-800 border border-sky-200">OTOMOTIF</span>
+          <span class="text-slate-300">•</span>
+          <span id="detail-update-freq" class="text-xs font-medium text-slate-500">Pembaruan tiap 5 menit</span>
+        </div>
 
-      <div class="bg-slate-50 rounded-xl p-3.5 mb-5 border border-slate-200">
-        <div class="text-xs text-slate-500 mb-1">ID Dataset Unik (API Endpoint):</div>
-        <div class="flex items-center justify-between">
-          <code id="modal-id" class="text-xs font-mono font-bold text-sky-700 truncate max-w-[260px]">d_olx_12345678</code>
-          <button onclick="copyDatasetId()" class="text-xs px-2.5 py-1 bg-white border border-slate-300 hover:bg-slate-100 rounded text-slate-800 font-bold transition">
-            Salin ID
+        <!-- Title & Agency -->
+        <h1 id="detail-title" class="text-2xl sm:text-3xl font-black text-brand-primary leading-tight mb-1">
+          Indeks Harga & Depresiasi Tahunan LMPV (Avanza, Xenia, Xpander)
+        </h1>
+        <div class="flex items-center gap-2 text-xs font-medium text-slate-500 mb-5">
+          <span id="detail-agency" class="text-sky-700 font-bold hover:underline cursor-pointer">OLX Autos Indonesia</span>
+          <span>•</span>
+          <span id="detail-coverage">Nasional (38 Provinsi)</span>
+        </div>
+
+        <!-- Action Buttons (See API options, Download, Subscribe, Share) -->
+        <div class="flex flex-wrap items-center gap-2 pb-5 border-b border-slate-200">
+          <button onclick="triggerToast('Menampilkan dokumentasi dan endpoint API terintegrasi')" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 transition shadow-sm">
+            <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            <span>Opsi API</span>
+          </button>
+
+          <button id="detail-download-btn" onclick="triggerToast('Mengunduh dataset snapshot (.JSON / .CSV)...')" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-lg bg-sky-600 hover:bg-sky-700 text-white transition shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span id="detail-download-label">Unduh Data (14.2 MB)</span>
+          </button>
+
+          <button onclick="triggerToast('Berhasil berlangganan notifikasi pembaruan dataset ini')" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 transition">
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            <span>Langganan</span>
+          </button>
+
+          <button onclick="copyCurrentDatasetLink()" class="p-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-800 transition" title="Bagikan Dataset">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
           </button>
         </div>
+
+        <!-- Yellow Rate Limit Notice Banner (Persis seperti di screenshot) -->
+        <div class="my-5 p-3 rounded-xl bg-amber-50 border border-amber-200/90 text-amber-900 text-xs flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-amber-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+            <span>Dapatkan kuota API lebih tinggi (rate limits & priority SLA). <strong>Masuk atau daftarkan akun developer</strong> untuk membuat API Key gratis.</span>
+          </div>
+          <button onclick="triggerToast('Membuka pendaftaran API Key Pengembang OLX')" class="flex-shrink-0 font-bold text-amber-800 underline hover:text-amber-950">Daftar API Key</button>
+        </div>
+
+        <!-- Description Box -->
+        <div class="prose prose-sm max-w-none text-slate-700 space-y-3 mb-6">
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Deskripsi & Cakupan Data</h3>
+          <p id="detail-desc" class="text-xs sm:text-sm leading-relaxed text-slate-600">
+            Kumpulan data telemetri komprehensif dari jutaan iklan kendaraan aktif dan transaksi terkonfirmasi di platform OLX Autos seluruh Indonesia.
+          </p>
+          <ul id="detail-bullets" class="list-disc pl-5 text-xs sm:text-sm text-slate-600 space-y-1">
+            <li>Diperbarui setiap 5-15 menit secara langsung dari stream transaksi pasar sekunder.</li>
+            <li>Meliputi parameter model, tahun pembuatan, transmisi, odometer (jarak tempuh), dan indeks depresiasi.</li>
+            <li>Gunakan parameter <code>timestamp</code> atau <code>date_time</code> untuk mengambil snapshot pasar pada rentang waktu spesifik.</li>
+          </ul>
+        </div>
+
+        <!-- Query Parameters Table (Sesuai di Screenshot) -->
+        <div class="mb-6">
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide mb-2.5">Parameter Kueri (Query Parameters)</h3>
+          <div class="border border-slate-200 rounded-xl overflow-hidden text-xs">
+            <table class="w-full text-left divide-y divide-slate-200">
+              <thead class="bg-slate-50 text-slate-700 font-bold">
+                <tr>
+                  <th class="p-2.5">Parameter</th>
+                  <th class="p-2.5">Tipe</th>
+                  <th class="p-2.5">Keterangan</th>
+                </tr>
+              </thead>
+              <tbody id="detail-params-table" class="divide-y divide-slate-100 bg-white">
+                <tr>
+                  <td class="p-2.5 font-mono font-bold text-sky-700">date_time</td>
+                  <td class="p-2.5 text-slate-500 font-mono">string (ISO 8601)</td>
+                  <td class="p-2.5 text-slate-600">YYYY-MM-DD[T]HH:mm:ss (WIB / UTC+7)</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-mono font-bold text-sky-700">region_id</td>
+                  <td class="p-2.5 text-slate-500 font-mono">string (opsional)</td>
+                  <td class="p-2.5 text-slate-600">Kode kota/provinsi BPS (contoh: <code>3171</code> untuk Jaksel)</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-mono font-bold text-sky-700">limit</td>
+                  <td class="p-2.5 text-slate-500 font-mono">integer</td>
+                  <td class="p-2.5 text-slate-600">Jumlah data per halaman respons (default: 50, maks: 500)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Request Headers Table -->
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide mb-2.5">Request Headers</h3>
+          <div class="border border-slate-200 rounded-xl overflow-hidden text-xs">
+            <table class="w-full text-left divide-y divide-slate-200">
+              <thead class="bg-slate-50 text-slate-700 font-bold">
+                <tr>
+                  <th class="p-2.5">Header</th>
+                  <th class="p-2.5">Wajib</th>
+                  <th class="p-2.5">Keterangan</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 bg-white">
+                <tr>
+                  <td class="p-2.5 font-mono font-bold text-sky-700">x-api-key</td>
+                  <td class="p-2.5 text-amber-600 font-semibold">Opsional</td>
+                  <td class="p-2.5 text-slate-600">API key untuk kuota panggilan tanpa batas throttle</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-mono font-bold text-sky-700">Accept</td>
+                  <td class="p-2.5 text-slate-500">Direkomendasikan</td>
+                  <td class="p-2.5 font-mono text-slate-600">application/json</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-3 mb-5">
-        <div class="p-3 bg-sky-50/70 rounded-xl text-center border border-sky-100">
-          <div class="text-xs text-slate-500">Panggilan Kueri API</div>
-          <div id="modal-api" class="text-base font-black text-slate-900 mt-0.5">-</div>
+      <!-- COL 3: Right API Playground & JSON Code Preview (~4 cols on large screens) -->
+      <div class="lg:col-span-4 p-5 bg-slate-900 text-slate-100 flex flex-col justify-between overflow-y-auto max-h-[calc(100vh-10rem)] font-mono text-xs">
+        
+        <div>
+          <!-- Endpoint Bar -->
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded font-black text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">GET</span>
+              <span id="playground-endpoint-path" class="text-slate-300 truncate max-w-[220px]">/v2/pricing/lmpv-index</span>
+            </div>
+            <span class="text-[10px] text-slate-400">Shell cURL</span>
+          </div>
+
+          <!-- cURL Request Code Box -->
+          <div class="relative bg-black/40 rounded-xl p-3.5 border border-slate-800 mb-4 group">
+            <button onclick="copyCurlCode()" class="absolute right-2.5 top-2.5 px-2 py-1 bg-slate-800 hover:bg-slate-700 rounded text-[11px] text-slate-300 font-sans transition">
+              Salin
+            </button>
+            <pre id="curl-code" class="text-[11px] text-sky-300 whitespace-pre-wrap leading-relaxed select-all">curl 'https://api.data.olx.co.id/v2/pricing/lmpv-index?limit=5' \
+  -H 'Accept: application/json'</pre>
+          </div>
+
+          <!-- Test Request Button -->
+          <div class="flex items-center justify-end mb-4">
+            <button id="test-req-btn" onclick="executePlaygroundRequest()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-sans font-bold text-xs shadow-md transition active:scale-95">
+              <svg id="test-play-icon" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+              <svg id="test-spinner" class="w-3.5 h-3.5 animate-spin hidden" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+              <span>Test Request</span>
+            </button>
+          </div>
+
+          <!-- Status Indicator Header -->
+          <div class="flex items-center justify-between py-2 border-b border-slate-800 mb-2">
+            <div class="flex items-center gap-2">
+              <span id="response-status-badge" class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400">200 DEFAULT</span>
+              <span id="response-latency" class="text-[10px] text-slate-400">128 ms</span>
+            </div>
+            <button onclick="triggerToast('Menampilkan JSON Schema OpenAPI v3.1...')" class="text-[11px] text-sky-400 hover:underline font-sans">Lihat Schema</button>
+          </div>
+
+          <!-- JSON Response Preview Viewer -->
+          <div class="bg-black/50 rounded-xl p-3 border border-slate-800/80 overflow-x-auto max-h-[380px]">
+            <pre id="json-response-viewer" class="text-[11px] leading-relaxed text-emerald-300">
+{
+  "api_info": {
+    "status": "healthy",
+    "version": "v2.4.1",
+    "timestamp": "2026-10-15T13:18:15+07:00"
+  },
+  "dataset": "d_olx_avanza_xenia_price_index",
+  "items": [
+    {
+      "model": "Toyota Avanza 1.3 G M/T",
+      "year": 2021,
+      "median_price": 178500000,
+      "price_change_yoy": "-6.8%",
+      "avg_days_to_sell": 14,
+      "top_region": "DKI Jakarta"
+    },
+    {
+      "model": "Mitsubishi Xpander Ultimate A/T",
+      "year": 2022,
+      "median_price": 234000000,
+      "price_change_yoy": "-4.2%",
+      "avg_days_to_sell": 11,
+      "top_region": "Surabaya"
+    }
+  ]
+}
+            </pre>
+          </div>
         </div>
-        <div class="p-3 bg-sky-50/70 rounded-xl text-center border border-sky-100">
-          <div class="text-xs text-slate-500">Total Unduhan File</div>
-          <div id="modal-downloads" class="text-base font-black text-slate-900 mt-0.5">-</div>
+
+        <!-- Footer API Rate Note -->
+        <div class="pt-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+          <span>Protokol: HTTPS / JSON REST API</span>
+          <span class="text-sky-400 cursor-pointer hover:underline" onclick="copyDatasetId()">Salin Endpoint</span>
         </div>
       </div>
 
-      <div class="flex gap-3">
-        <button onclick="triggerToast('Menghubungkan ke Sandbox REST API OLX Data...')" class="flex-1 py-2.5 px-4 bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold rounded-xl transition shadow">
-          Uji Coba API & Data
-        </button>
-        <button onclick="closeModal()" class="py-2.5 px-4 border border-slate-300 hover:bg-slate-100 text-slate-700 text-sm font-semibold rounded-xl transition">
-          Tutup
-        </button>
-      </div>
     </div>
   </div>
+  <!-- END DATASET EXPLORER VIEW -->
 
-  <!-- Toast Notification element -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none bg-brand-primary text-white text-sm px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 border border-sky-400/40">
-    <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-    <span id="toast-text">Pemberitahuan portal data</span>
+  <!-- 10. Official Footer Section (Replika Desain Screenshot) -->
+  <footer class="w-full bg-[#081C33] border-t border-sky-950/60 py-12 px-4 sm:px-6 lg:px-8 mt-auto text-white">
+    <div class="max-w-7xl mx-auto flex flex-col items-center justify-center text-center">
+      <!-- OLX DATA INDONESIA Logo Badge -->
+      <div class="flex items-center justify-center gap-2 mb-6">
+        <div class="flex items-center font-black tracking-tight text-2xl text-white">
+          <span>O</span><span class="text-sky-400">L</span><span class="text-sky-300">X</span>
+        </div>
+        <span class="text-[11px] font-bold px-2 py-0.5 rounded border border-sky-400/50 bg-sky-950/70 text-sky-200 tracking-wider uppercase">
+          DATA INDONESIA
+        </span>
+      </div>
+
+      <!-- Centered Navigation Links Row -->
+      <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-xs font-semibold text-slate-300 mb-6">
+        <a href="#" onclick="triggerToast('Membuka program kemitraan perbankan & asuransi...'); return false;" class="hover:text-sky-300 transition-colors">Kemitraan Perbankan &amp; Asuransi</a>
+        <a href="#" onclick="triggerToast('Status Sistem Gateway API: 99.98% Uptime (Operational)'); return false;" class="hover:text-sky-300 transition-colors">Status Sistem API</a>
+        <a href="#" onclick="triggerToast('Menampilkan Lisensi Penggunaan Terbuka OLX Open Data'); return false;" class="hover:text-sky-300 transition-colors">Lisensi Penggunaan Data</a>
+        <a href="#" onclick="triggerToast('Kebijakan Privasi & Ketentuan Layanan Data'); return false;" class="hover:text-sky-300 transition-colors">Privasi &amp; Syarat Ketentuan</a>
+        <a href="#" onclick="triggerToast('Membuka spesifikasi teknis OpenAPI 3.1 & Swagger Docs'); return false;" class="hover:text-sky-300 transition-colors">Spesifikasi OpenAPI</a>
+        <a href="#" onclick="triggerToast('Hubungi tim teknis & kemitraan OLX Data'); return false;" class="hover:text-sky-300 transition-colors">Bantuan &amp; Kontak</a>
+      </div>
+
+      <!-- Copyright Notice -->
+      <p class="text-[11px] text-slate-400 max-w-2xl leading-relaxed">
+        © 2026 PT Tokobagus (OLX Indonesia) — Hak Cipta Dilindungi. Platform Data Terbuka dipersembahkan untuk kemajuan analisis ekonomi digital dan ekosistem pasar sekunder nasional.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Box -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 ease-out bg-[#0B2545] text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 border border-sky-300/40 max-w-md">
+    <div class="w-2 h-2 rounded-full bg-sky-400 animate-pulse flex-shrink-0"></div>
+    <span id="toast-text" class="text-xs font-medium">Notifikasi portal</span>
   </div>
+
+  </div> <!-- END .full-width-container -->
 
   <!-- 11. Application Logic & Data Controller (OLX Data) -->
   <script>
@@ -765,71 +1017,341 @@
         title: "Indeks Harga & Depresiasi Tahunan LMPV (Avanza, Xenia, Xpander)",
         agency: "OLX Autos Indonesia",
         topic: "otomotif",
+        format: "API",
+        updateFreq: "Diperbarui tiap 15 menit",
+        coverage: "38 Provinsi / 514 Kota & Kab",
         iconColor: "text-sky-700 bg-sky-100",
-        description: "Data historis transacted listing harga mobil sejuta umat tahun pembuatan 2016-2024, mencakup transmisi, jarak tempuh, dan wilayah penjualan.",
+        description: "Data agregasi transaksi dan pergerakan penawaran mobil segmen Low-MPV (Avanza, Veloz, Xenia, Xpander, Ertiga). Dihitung berdasarkan nilai transacted listing, kilometer tempuh, dan wilayah penjualan.",
         allTime: { apiCalls: "348.4M", downloadsCount: "128.5K" },
-        past24Hours: { apiCalls: "2.8M", downloadsCount: "420" }
+        past24Hours: { apiCalls: "2.8M", downloadsCount: "420" },
+        endpoint: "/v2/pricing/lmpv-index",
+        sampleResponse: {
+          api_info: { status: "healthy", version: "v2.4.1", timestamp: "2026-10-15T13:18:15+07:00" },
+          dataset: "d_olx_avanza_xenia_price_index",
+          items: [
+            { model: "Toyota Avanza 1.3 G M/T", year: 2021, median_price: 178500000, price_change_yoy: "-6.8%", avg_days_to_sell: 14, top_region: "DKI Jakarta" },
+            { model: "Mitsubishi Xpander Ultimate A/T", year: 2022, median_price: 234000000, price_change_yoy: "-4.2%", avg_days_to_sell: 11, top_region: "Surabaya" },
+            { model: "Daihatsu Xenia 1.5 R CVT", year: 2023, median_price: 195000000, price_change_yoy: "-5.1%", avg_days_to_sell: 16, top_region: "Bandung" }
+          ]
+        }
       },
       {
         id: "d_olx_days_to_sell_motorcycle",
         title: "Metrik Days-to-Sell (Kecepatan Laku) Motor Matik 110cc - 160cc",
         agency: "OLX MotoMarket",
         topic: "otomotif",
+        format: "API",
+        updateFreq: "Diperbarui tiap jam",
+        coverage: "Jabodetabek, Jateng, Jatim, Bali",
         iconColor: "text-blue-600 bg-blue-100",
-        description: "Durasi rata-rata hari dari penayangan iklan hingga unit ditandai laku untuk model Honda Beat, Scoopy, Vario, Yamaha NMAX, dan Aerox.",
+        description: "Metrik likuiditas durasi rata-rata hari dari penayangan iklan pertama kali hingga unit ditandai laku/sold untuk model Honda Beat, Scoopy, Vario 160, Yamaha NMAX, dan Aerox 155.",
         allTime: { apiCalls: "118.2M", downloadsCount: "82.4K" },
-        past24Hours: { apiCalls: "840K", downloadsCount: "194" }
+        past24Hours: { apiCalls: "840K", downloadsCount: "194" },
+        endpoint: "/v2/liquidity/motorcycles-days-to-sell",
+        sampleResponse: {
+          api_info: { status: "healthy", version: "v2.4.1", timestamp: "2026-10-15T13:18:15+07:00" },
+          dataset: "d_olx_days_to_sell_motorcycle",
+          items: [
+            { model: "Honda BeAT FI eSP", cc: 110, avg_days_to_sell: 4.8, active_listings: 18450, liquidity_score: 98 },
+            { model: "Yamaha NMAX 155 Connected", cc: 155, avg_days_to_sell: 6.2, active_listings: 9240, liquidity_score: 93 },
+            { model: "Honda Scoopy Prestige", cc: 110, avg_days_to_sell: 5.1, active_listings: 7300, liquidity_score: 96 }
+          ]
+        }
       },
       {
         id: "d_olx_properti_jabodetabek_sqm",
         title: "Median Harga Penawaran Rumah Sekunder per m² di Jabodetabek",
-        agency: "OLX Properti Analytics",
+        agency: "OLX Properti",
         topic: "properti",
+        format: "JSON",
+        updateFreq: "Diperbarui harian",
+        coverage: "DKI Jakarta, Bogor, Depok, Tangerang, Bekasi",
         iconColor: "text-cyan-700 bg-cyan-100",
-        description: "Agregasi harga per meter persegi tanah & bangunan di 5 kota administrasi DKI Jakarta, Tangerang Selatan, Bekasi, Depok, dan Bogor.",
+        description: "Agregasi harga per meter persegi tanah & bangunan di 5 kota administrasi DKI Jakarta, Tangerang Selatan, Bekasi, Depok, dan Bogor dari ribuan penawaran rumah secondary terverifikasi.",
         allTime: { apiCalls: "72.1M", downloadsCount: "64.3K" },
-        past24Hours: { apiCalls: "312K", downloadsCount: "88" }
+        past24Hours: { apiCalls: "312K", downloadsCount: "88" },
+        endpoint: "/v2/property/jabodetabek-sqm-median",
+        sampleResponse: {
+          api_info: { status: "healthy", version: "v2.4.1", timestamp: "2026-10-15T13:18:15+07:00" },
+          dataset: "d_olx_properti_jabodetabek_sqm",
+          items: [
+            { city: "Jakarta Selatan", district: "Kebayoran Baru", median_sqm: 28400000, listings: 1250 },
+            { city: "Tangerang Selatan", district: "Serpong", median_sqm: 14800000, listings: 3410 },
+            { city: "Bekasi", district: "Bekasi Barat", median_sqm: 8900000, listings: 2890 }
+          ]
+        }
       },
       {
         id: "d_olx_iphone_samsung_flagship_retention",
         title: "Indeks Retensi Nilai Jual Kembali Smartphone Flagship (36 Bulan)",
-        agency: "OLX Gadget Division",
+        agency: "OLX Gadget",
         topic: "elektronik",
+        format: "CSV",
+        updateFreq: "Diperbarui mingguan",
+        coverage: "Seluruh Indonesia",
         iconColor: "text-indigo-600 bg-indigo-100",
-        description: "Penyusutan nilai harga iPhone dan lini Samsung Galaxy S-Series pasca rilis model suksesor, dihitung dari listing terverifikasi.",
+        description: "Penyusutan nilai harga iPhone 13, 14, 15 series dan Samsung Galaxy S-Series pasca rilis model suksesor, dihitung dari listing terverifikasi dan survei minat chat calon pembeli.",
         allTime: { apiCalls: "94.6M", downloadsCount: "41.8K" },
-        past24Hours: { apiCalls: "580K", downloadsCount: "142" }
+        past24Hours: { apiCalls: "580K", downloadsCount: "142" },
+        endpoint: "/v2/electronics/flagship-retention-rate",
+        sampleResponse: {
+          api_info: { status: "healthy", version: "v2.4.1", timestamp: "2026-10-15T13:18:15+07:00" },
+          dataset: "d_olx_iphone_samsung_flagship_retention",
+          items: [
+            { device: "Apple iPhone 14 Pro 128GB", launch_price: 19999000, current_median: 12400000, retention_rate: "62.0%" },
+            { device: "Samsung Galaxy S23 Ultra", launch_price: 19999000, current_median: 10800000, retention_rate: "54.0%" }
+          ]
+        }
       },
       {
         id: "d_olx_regional_liquidity_tier2_tier3",
         title: "Skor Likuiditas Transaksi C2C Jawa Tengah & Jawa Timur",
         agency: "OLX Geo-Intelligence",
         topic: "geografis",
+        format: "JSON",
+        updateFreq: "Diperbarui tiap 6 jam",
+        coverage: "Semarang, Solo, Malang, Kediri, Jember",
         iconColor: "text-sky-600 bg-sky-100",
-        description: "Indeks perputaran barang bekas di kota lapis 2 dan 3 (Solo, Semarang, Malang, Jember) berdasarkan rasio chat pembeli per iklan.",
+        description: "Indeks perputaran barang bekas di kota lapis 2 dan 3 berdasarkan rasio chat pembeli per iklan, jarak tempuh COD, serta persentase transaksi yang sukses dalam 7 hari.",
         allTime: { apiCalls: "45.8M", downloadsCount: "18.2K" },
-        past24Hours: { apiCalls: "198K", downloadsCount: "54" }
+        past24Hours: { apiCalls: "198K", downloadsCount: "54" },
+        endpoint: "/v2/geo/tier2-tier3-c2c-velocity",
+        sampleResponse: {
+          api_info: { status: "healthy", version: "v2.4.1", timestamp: "2026-10-15T13:18:15+07:00" },
+          dataset: "d_olx_regional_liquidity_tier2_tier3",
+          items: [
+            { city: "Solo (Surakarta)", c2c_score: 88.4, avg_chats_per_ad: 9.4, top_demand: "Sepeda Motor & Perkakas" },
+            { city: "Malang", c2c_score: 91.2, avg_chats_per_ad: 12.1, top_demand: "Laptop & Kamera Bekas" }
+          ]
+        }
       },
       {
         id: "d_olx_streaming_active_listings_feed",
         title: "Feed Real-Time Listing Iklan Baru Nasional (Webhooks/Kafka)",
         agency: "OLX Engineering Platform",
         topic: "api",
+        format: "STREAM",
+        updateFreq: "Real-time Streaming (< 250ms)",
+        coverage: "Live Feed Nasional",
         iconColor: "text-sky-500 bg-sky-100",
-        description: "Aliran streaming kueri pembaruan listing baru, perubahan harga diskon penjual, dan status persediaan di seluruh Indonesia.",
+        description: "Aliran streaming kueri pembaruan listing baru, perubahan harga diskon penjual, dan status persediaan di seluruh Indonesia untuk konsumsi bot, ERP, dan pemodelan AI.",
         allTime: { apiCalls: "1.28B", downloadsCount: "310K" },
-        past24Hours: { apiCalls: "14.2M", downloadsCount: "1.1K" }
+        past24Hours: { apiCalls: "14.2M", downloadsCount: "1.1K" },
+        endpoint: "/v2/streaming/live-ads-feed",
+        sampleResponse: {
+          api_info: { status: "streaming_live", protocol: "websocket/kafka", timestamp: "2026-10-15T13:18:15+07:00" },
+          event: "ad_created",
+          ad_id: "olx_ad_9941829",
+          category: "Mobil Bekas",
+          title: "Toyota Fortuner 2.8 VRZ GR Sport 4x2 2022",
+          price: 495000000,
+          location: "Kelapa Gading, Jakarta Utara"
+        }
       }
     ];
 
     let currentPeriod = 'recent';
     let currentTopicFilter = 'all';
     let currentSearchTerm = '';
+    let selectedExplorerDataset = DATASETS[0];
 
     // Inisialisasi awal saat halaman dimuat
     window.onload = function() {
       renderDatasets();
+      renderExplorerList(DATASETS);
+      selectExplorerDataset(DATASETS[0].id);
     };
+
+    // Navigasi Page Switcher: Landing vs Explorer (Kayak Screenshot)
+    function openExplorerView(searchTerm = '') {
+      document.getElementById('landing-page-view').classList.add('hidden');
+      document.getElementById('explorer-page-view').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (searchTerm) {
+        document.getElementById('explorer-search-input').value = searchTerm;
+        filterExplorerList(searchTerm);
+      } else {
+        renderExplorerList(DATASETS);
+      }
+    }
+
+    function returnToLandingView() {
+      document.getElementById('explorer-page-view').classList.add('hidden');
+      document.getElementById('landing-page-view').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Handle Hero Search: beralih langsung ke Explorer Page View!
+    function handleSearch() {
+      const input = document.getElementById('search-input');
+      const val = input.value.trim();
+      openExplorerView(val);
+      triggerToast(`Membuka katalog data untuk pencarian: "${val || 'Semua Data'}"`);
+    }
+
+    // Explorer List Rendering & Filtering
+    function renderExplorerList(items) {
+      const listContainer = document.getElementById('explorer-dataset-list');
+      const countEl = document.getElementById('results-count-text');
+      countEl.innerText = `${items.length} dataset ditemukan`;
+      listContainer.innerHTML = '';
+
+      if (items.length === 0) {
+        listContainer.innerHTML = `
+          <div class="p-6 text-center text-slate-400 text-xs">
+            Tidak ada dataset yang sesuai filter.
+          </div>
+        `;
+        return;
+      }
+
+      items.forEach(item => {
+        const isSelected = selectedExplorerDataset && selectedExplorerDataset.id === item.id;
+        const div = document.createElement('div');
+        div.className = `p-4 cursor-pointer transition-all border-l-4 ${
+          isSelected 
+            ? 'bg-sky-50/70 border-sky-600 text-slate-900 shadow-sm' 
+            : 'border-transparent hover:bg-slate-100/70 text-slate-700'
+        }`;
+        div.onclick = () => selectExplorerDataset(item.id);
+
+        div.innerHTML = `
+          <div class="flex items-center gap-1.5 mb-1">
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider bg-white border border-slate-200 text-sky-800">
+              ${item.format || 'API'}
+            </span>
+            <span class="text-[11px] text-slate-500 font-medium truncate">${item.agency}</span>
+          </div>
+          <h4 class="text-xs font-bold leading-snug line-clamp-2 ${isSelected ? 'text-sky-950 font-black' : 'text-slate-800'}">
+            ${item.title}
+          </h4>
+          <div class="mt-2 flex items-center justify-between text-[11px] text-slate-500">
+            <span>${item.past24Hours.apiCalls} kueri/hr</span>
+            <span>${item.topic}</span>
+          </div>
+        `;
+        listContainer.appendChild(div);
+      });
+    }
+
+    function selectExplorerDataset(id) {
+      const found = DATASETS.find(d => d.id === id);
+      if (!found) return;
+      selectedExplorerDataset = found;
+
+      // Update Center Column
+      document.getElementById('detail-topic-badge').innerText = found.topic.toUpperCase();
+      document.getElementById('detail-title').innerText = found.title;
+      document.getElementById('detail-agency').innerText = found.agency;
+      document.getElementById('detail-desc').innerText = found.description;
+      document.getElementById('detail-update-freq').innerText = found.updateFreq || 'Pembaruan real-time';
+      document.getElementById('detail-coverage').innerText = found.coverage || 'Nasional';
+      document.getElementById('detail-download-label').innerText = `Unduh .${found.format || 'JSON'}`;
+
+      // Update Right Column Playground
+      document.getElementById('playground-endpoint-path').innerText = found.endpoint || '/v2/data/feed';
+      document.getElementById('curl-code').innerText = `curl 'https://api.data.olx.co.id${found.endpoint || '/v2/data'}' \\\n  -H 'Accept: application/json'`;
+      document.getElementById('json-response-viewer').innerText = JSON.stringify(found.sampleResponse, null, 2);
+
+      // Re-render list to refresh active border state
+      const currentQuery = document.getElementById('explorer-search-input').value;
+      const filtered = getFilteredExplorerDatasets(currentQuery);
+      renderExplorerList(filtered);
+    }
+
+    function getFilteredExplorerDatasets(keyword = '') {
+      const topic = document.getElementById('filter-explorer-topic').value;
+      const format = document.getElementById('filter-explorer-format').value;
+      const agency = document.getElementById('filter-explorer-agency').value;
+
+      return DATASETS.filter(item => {
+        const matchesQuery = !keyword || 
+          item.title.toLowerCase().includes(keyword.toLowerCase()) || 
+          item.description.toLowerCase().includes(keyword.toLowerCase()) ||
+          item.agency.toLowerCase().includes(keyword.toLowerCase());
+        const matchesTopic = topic === 'all' || item.topic === topic;
+        const matchesFormat = format === 'all' || item.format === format;
+        const matchesAgency = agency === 'all' || item.agency.toLowerCase().includes(agency.toLowerCase());
+
+        return matchesQuery && matchesTopic && matchesFormat && matchesAgency;
+      });
+    }
+
+    function filterExplorerList(val) {
+      const filtered = getFilteredExplorerDatasets(val.trim());
+      renderExplorerList(filtered);
+      if (filtered.length > 0 && (!selectedExplorerDataset || !filtered.some(d => d.id === selectedExplorerDataset.id))) {
+        selectExplorerDataset(filtered[0].id);
+      }
+    }
+
+    function filterExplorerByTopic(val) {
+      filterExplorerList(document.getElementById('explorer-search-input').value);
+    }
+
+    function filterExplorerFormat(val) {
+      filterExplorerList(document.getElementById('explorer-search-input').value);
+    }
+
+    function filterExplorerAgency(val) {
+      filterExplorerList(document.getElementById('explorer-search-input').value);
+    }
+
+    function resetExplorerFilters() {
+      document.getElementById('filter-explorer-topic').value = 'all';
+      document.getElementById('filter-explorer-format').value = 'all';
+      document.getElementById('filter-explorer-agency').value = 'all';
+      document.getElementById('explorer-search-input').value = '';
+      filterExplorerList('');
+      triggerToast('Filter telah disetel ulang.');
+    }
+
+    // Test API Request Simulator
+    function executePlaygroundRequest() {
+      const btn = document.getElementById('test-req-btn');
+      const playIcon = document.getElementById('test-play-icon');
+      const spinner = document.getElementById('test-spinner');
+      const badge = document.getElementById('response-status-badge');
+      const latency = document.getElementById('response-latency');
+
+      playIcon.classList.add('hidden');
+      spinner.classList.remove('hidden');
+      btn.disabled = true;
+
+      const randomLatency = Math.floor(Math.random() * 80) + 75;
+
+      setTimeout(() => {
+        playIcon.classList.remove('hidden');
+        spinner.classList.add('hidden');
+        btn.disabled = false;
+        badge.innerText = "200 OK";
+        latency.innerText = `${randomLatency} ms`;
+        triggerToast(`API Response 200 OK diterima dalam ${randomLatency}ms`);
+      }, 450);
+    }
+
+    function copyCurlCode() {
+      const code = document.getElementById('curl-code').innerText;
+      const dummy = document.createElement('textarea');
+      dummy.value = code;
+      document.body.appendChild(dummy);
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+      triggerToast('Perintah cURL berhasil disalin ke clipboard!');
+    }
+
+    function copyCurrentDatasetLink() {
+      if (!selectedExplorerDataset) return;
+      const dummy = document.createElement('textarea');
+      dummy.value = `https://data.olx.co.id/dataset/${selectedExplorerDataset.id}`;
+      document.body.appendChild(dummy);
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+      triggerToast('Tautan dataset disalin ke clipboard!');
+    }
 
     // Toggle Verifikasi OLX Masthead Accordion
     function toggleMasthead() {
@@ -904,29 +1426,23 @@
       document.getElementById('datasets-section').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Live search input filtering
+    // Live search input filtering pada landing page
     function liveFilterDatasets(query) {
       currentSearchTerm = query.trim().toLowerCase();
       renderDatasets();
       const feedback = document.getElementById('search-feedback');
       if (currentSearchTerm) {
-        feedback.innerText = `Menyaring dataset yang mengandung kata "${currentSearchTerm}"...`;
+        feedback.innerText = `Menyaring dataset yang mengandung kata "${currentSearchTerm}"... (Tekan Enter atau klik Cari Data untuk membuka Katalog API)`;
       } else {
         feedback.innerText = '';
       }
-    }
-
-    function handleSearch() {
-      const input = document.getElementById('search-input');
-      liveFilterDatasets(input.value);
-      document.getElementById('datasets-section').scrollIntoView({ behavior: 'smooth' });
     }
 
     function scrollToDatasets() {
       document.getElementById('datasets-section').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Render dataset items to the DOM
+    // Render dataset items to the landing page DOM
     function renderDatasets() {
       const container = document.getElementById('datasets-grid');
       container.innerHTML = '';
@@ -957,7 +1473,10 @@
         const stats = currentPeriod === 'recent' ? ds.past24Hours : ds.allTime;
         const card = document.createElement('div');
         card.className = "dataset-card cursor-pointer flex flex-col justify-between rounded-2xl border border-sky-100 bg-white p-5 hover:border-sky-400 transition-all";
-        card.onclick = () => openModal(ds);
+        card.onclick = () => {
+          openExplorerView();
+          selectExplorerDataset(ds.id);
+        };
 
         card.innerHTML = `
           <div>
@@ -1012,14 +1531,14 @@
 
     // Salin ID Dataset
     function copyDatasetId() {
-      if (!activeDataset) return;
+      const idToCopy = selectedExplorerDataset ? selectedExplorerDataset.id : (activeDataset ? activeDataset.id : "d_olx_dataset");
       const dummy = document.createElement('textarea');
-      dummy.value = activeDataset.id;
+      dummy.value = idToCopy;
       document.body.appendChild(dummy);
       dummy.select();
       document.execCommand('copy');
       document.body.removeChild(dummy);
-      triggerToast(`ID Dataset berhasil disalin: ${activeDataset.id}`);
+      triggerToast(`ID Dataset berhasil disalin: ${idToCopy}`);
     }
 
     // Custom Toast Notification Trigger (Tanpa window.alert)
